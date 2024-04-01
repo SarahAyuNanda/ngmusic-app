@@ -2,20 +2,32 @@ import Menu from "assets/images/menu.svg";
 import NgMusic from "assets/images/ngmusic.svg";
 import Search from "assets/images/search.svg";
 import Card from "components/Card";
+import SearchModal from "components/Modal";
 
 import useDashboard from "./index.controller";
 
 const Dashboard = () => {
-  const { searchParam, partialResult, onLoadMore, isHideLoad } = useDashboard();
+  const {
+    searchParam,
+    partialResult,
+    isSearch,
+    search,
+    onChangeSearch,
+    onSubmitSearch,
+    onLoadMore,
+    onHandleSearch,
+    isDisabled,
+    isHideLoad,
+  } = useDashboard();
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-start bg-white">
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-start bg-white">
       <header className="flex h-[60px] w-full items-center justify-between bg-gradient-to-br from-primary to-secondary px-[19px] py-[15px]">
         <button>
           <img src={Menu} alt="menu" width={14} height={14} />
         </button>
         <img src={NgMusic} alt="menu" width={72} height={"auto"} />
-        <button>
+        <button onClick={onHandleSearch}>
           <img src={Search} alt="menu" width={14} height={14} />
         </button>
       </header>
@@ -35,12 +47,18 @@ const Dashboard = () => {
           })}
           {isHideLoad && null}
           {!isHideLoad && (
-            <button onClick={onLoadMore} className="w-[120px] rounded-full bg-gray py-[10px] font-roboto text-xs font-medium text-text">
+            <button
+              onClick={onLoadMore}
+              className="w-[120px] rounded-full bg-gray py-[10px] font-roboto text-xs font-medium text-text"
+            >
               Load More
             </button>
           )}
         </div>
       </section>
+
+      {isSearch && <SearchModal onClose={onHandleSearch} search={search} onChange={onChangeSearch} onSubmit={onSubmitSearch} disabled={isDisabled} />}
+      {!isSearch && null}
     </main>
   );
 };

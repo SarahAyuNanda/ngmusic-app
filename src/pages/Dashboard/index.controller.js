@@ -7,11 +7,23 @@ const useDashboard = () => {
   const getResult = localStorage.getItem("result");
   const parsedResult = JSON.parse(getResult) ?? [];
 
-  const [count, setCount] = useState(0);
   const [result, setResult] = useState(parsedResult);
   const [partialResult, setPartialResult] = useState([]);
   const [countPartial, setCountPartial] = useState(1);
   const [totalPartial, setTotalPartial] = useState(0);
+  const [isSearch, setIsSearch] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const onChangeSearch = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+  };
+
+  const onSubmitSearch = () => {
+    setIsSearch(false)
+    localStorage.setItem("search", search);
+    searchMutation.mutate()
+  };
 
   const searchMutation = useMutation({
     mutationFn: () => getSearch(searchParam),
@@ -23,10 +35,9 @@ const useDashboard = () => {
       const getResult = res.data.results;
       const slicing = getResult.slice(0, 4);
 
-      setCount(getCount);
       setResult(getResult);
       setPartialResult(slicing);
-      setTotalPartial(Math.ceil((getCount / 4)));
+      setTotalPartial(Math.ceil(getCount / 4));
 
       localStorage.setItem("result", JSON.stringify(getResult));
     },
@@ -34,16 +45,27 @@ const useDashboard = () => {
 
   const onLoadMore = () => {
     const currentCount = countPartial + 1;
-    const getPartialResult = result.slice(0, 4*currentCount)
+    const getPartialResult = result.slice(0, 4 * currentCount);
     setCountPartial(currentCount);
-    setPartialResult(getPartialResult)
+    setPartialResult(getPartialResult);
+  };
+
+  const onHandleSearch = () => {
+    setIsSearch((prev) => !prev);
   };
 
   useEffect(() => {
     searchMutation.mutate();
 
-    return () => searchMutation.reset();
+    return () => {
+      searchMutation.reset();
+      localStorage.clear();
+    };
   }, []);
+
+  const isDisabled = useMemo(() => {
+    return !search;
+  }, [search]);
 
   const isHideLoad = useMemo(() => {
     return countPartial === totalPartial;
@@ -51,12 +73,16 @@ const useDashboard = () => {
 
   return {
     searchParam,
-    count,
-    result,
     partialResult,
+    isSearch,
+    search,
 
+    onChangeSearch,
+    onSubmitSearch,
     onLoadMore,
+    onHandleSearch,
 
+    isDisabled,
     isHideLoad,
   };
 };
