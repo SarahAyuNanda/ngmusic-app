@@ -59,7 +59,6 @@ const useDashboard = () => {
 
     return () => {
       searchMutation.reset();
-      localStorage.clear();
     };
   }, []);
 

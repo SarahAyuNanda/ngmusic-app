@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const { useNavigate } = require("react-router-dom");
 
@@ -20,6 +20,10 @@ const useHome = () => {
   const isDisabled = useMemo(() => {
     return !search;
   }, [search]);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return {
     search,
