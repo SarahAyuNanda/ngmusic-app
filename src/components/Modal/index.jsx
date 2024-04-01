@@ -1,4 +1,3 @@
-
 const SearchModal = (props) => {
   return (
     <section className="absolute z-10 flex min-h-screen w-full flex-col items-center justify-center gap-[31px] bg-modal">

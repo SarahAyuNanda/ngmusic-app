@@ -12,7 +12,7 @@ const useDashboard = () => {
   const [countPartial, setCountPartial] = useState(1);
   const [totalPartial, setTotalPartial] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchParam);
 
   const onChangeSearch = (e) => {
     const value = e.target.value;
@@ -20,9 +20,9 @@ const useDashboard = () => {
   };
 
   const onSubmitSearch = () => {
-    setIsSearch(false)
+    setIsSearch(false);
     localStorage.setItem("search", search);
-    searchMutation.mutate()
+    searchMutation.mutate();
   };
 
   const searchMutation = useMutation({
@@ -72,7 +72,6 @@ const useDashboard = () => {
   }, [totalPartial, countPartial]);
 
   return {
-    searchParam,
     partialResult,
     isSearch,
     search,

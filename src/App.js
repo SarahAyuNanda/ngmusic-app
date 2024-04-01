@@ -11,7 +11,9 @@ const renderLoading = () => (
       height={60}
       alt="loading"
     />
-    <p className="animate-pulse">LOADING...</p>
+    <p className="animate-pulse font-roboto text-base font-semibold text-white">
+      LOADING...
+    </p>
   </div>
 );
 

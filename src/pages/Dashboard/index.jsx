@@ -8,7 +8,6 @@ import useDashboard from "./index.controller";
 
 const Dashboard = () => {
   const {
-    searchParam,
     partialResult,
     isSearch,
     search,
@@ -37,9 +36,7 @@ const Dashboard = () => {
           <p className="font-roboto text-sm font-normal text-dark">
             Search result for :{" "}
           </p>
-          <p className="font-roboto text-lg font-bold text-primary">
-            {searchParam}
-          </p>
+          <p className="font-roboto text-lg font-bold text-primary">{search}</p>
         </div>
         <div className="flex flex-col items-center justify-start gap-5">
           {partialResult.map((item) => {
@@ -57,7 +54,15 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {isSearch && <SearchModal onClose={onHandleSearch} search={search} onChange={onChangeSearch} onSubmit={onSubmitSearch} disabled={isDisabled} />}
+      {isSearch && (
+        <SearchModal
+          onClose={onHandleSearch}
+          search={search}
+          onChange={onChangeSearch}
+          onSubmit={onSubmitSearch}
+          disabled={isDisabled}
+        />
+      )}
       {!isSearch && null}
     </main>
   );
